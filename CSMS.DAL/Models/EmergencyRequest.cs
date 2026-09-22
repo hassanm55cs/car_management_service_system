@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSMS.DAL.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace CSMS.DAL.Models;
@@ -16,6 +17,7 @@ public partial class EmergencyRequest
     public string Latitude { get; set; } = null!;
 
     public string Longitude { get; set; } = null!;
+    public StatusEmergency StatusEmergency{ get; set; }
 
     public virtual Car CarLicencePlateNavigation { get; set; } = null!;
 

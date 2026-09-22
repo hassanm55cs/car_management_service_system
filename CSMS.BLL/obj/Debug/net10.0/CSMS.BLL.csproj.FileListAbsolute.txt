@@ -28,3 +28,4 @@ M:\dotnetproj\CSMS\CSMS.BLL\obj\Debug\net10.0\CSMS.BLL.dll
 M:\dotnetproj\CSMS\CSMS.BLL\obj\Debug\net10.0\refint\CSMS.BLL.dll
 M:\dotnetproj\CSMS\CSMS.BLL\obj\Debug\net10.0\CSMS.BLL.pdb
 M:\dotnetproj\CSMS\CSMS.BLL\obj\Debug\net10.0\ref\CSMS.BLL.dll
+M:\dotnetproj\CSMS\CSMS.BLL\obj\Debug\net10.0\CSMS.BLL.sourcelink.json

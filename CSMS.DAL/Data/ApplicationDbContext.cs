@@ -102,6 +102,11 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.ManufactuareDate).HasColumnName("manufactuare_date");
             entity.Property(e => e.Model).HasMaxLength(20);
             entity.Property(e => e.NoOfCylinders).HasColumnName("No_of_cylinders");
+            entity.Property(e => e.FuelType)
+         .HasConversion<string>();
+
+            entity.Property(e => e.EngineType)
+                .HasConversion<string>();
         });
 
         modelBuilder.Entity<Customer>(entity =>
@@ -151,6 +156,8 @@ public partial class ApplicationDbContext : DbContext
             entity.HasOne(d => d.Driver).WithMany(p => p.EmergencyRequests)
                 .HasForeignKey(d => d.DriverId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+            entity.Property(e => e.StatusEmergency)
+         .HasConversion<string>();
         });
 
         modelBuilder.Entity<EmergencyTruck>(entity =>
@@ -171,6 +178,7 @@ public partial class ApplicationDbContext : DbContext
             entity.HasOne(d => d.Driver).WithMany(p => p.EmergencyTrucks)
                 .HasForeignKey(d => d.DriverId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+
         });
 
         modelBuilder.Entity<Employee>(entity =>
