@@ -1,0 +1,29 @@
+@model IEnumerable<CSMS.PLL.ViewModels.ProductViewModel>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h1>Products</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New Product</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th class="text-end">Price</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var product in Model)
+    {
+        <tr>
+            <td>@product.Name</td>
+            <td class="text-end">@product.Price.ToString("C")</td>
+        </tr>
+    }
+    </tbody>
+</table>

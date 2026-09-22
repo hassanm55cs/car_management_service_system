@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="CSMS.BLL/CSMS.BLL.csproj" />
+  <Project Path="CSMS.DAL/CSMS.DAL.csproj" />
+  <Project Path="CSMS.PLL/CSMS.PLL.csproj" />
+</Solution>
