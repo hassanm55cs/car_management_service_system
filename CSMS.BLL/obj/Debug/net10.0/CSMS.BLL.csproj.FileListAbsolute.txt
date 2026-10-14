@@ -29,3 +29,19 @@ M:\dotnetproj\CSMS\CSMS.BLL\obj\Debug\net10.0\refint\CSMS.BLL.dll
 M:\dotnetproj\CSMS\CSMS.BLL\obj\Debug\net10.0\CSMS.BLL.pdb
 M:\dotnetproj\CSMS\CSMS.BLL\obj\Debug\net10.0\ref\CSMS.BLL.dll
 M:\dotnetproj\CSMS\CSMS.BLL\obj\Debug\net10.0\CSMS.BLL.sourcelink.json
+E:\cccc\New folder\CSMS\CSMS.BLL\bin\Debug\net10.0\CSMS.BLL.deps.json
+E:\cccc\New folder\CSMS\CSMS.BLL\bin\Debug\net10.0\CSMS.BLL.dll
+E:\cccc\New folder\CSMS\CSMS.BLL\bin\Debug\net10.0\CSMS.BLL.pdb
+E:\cccc\New folder\CSMS\CSMS.BLL\bin\Debug\net10.0\CSMS.DAL.dll
+E:\cccc\New folder\CSMS\CSMS.BLL\bin\Debug\net10.0\CSMS.DAL.pdb
+E:\cccc\New folder\CSMS\CSMS.BLL\obj\Debug\net10.0\CSMS.BLL.csproj.AssemblyReference.cache
+E:\cccc\New folder\CSMS\CSMS.BLL\obj\Debug\net10.0\CSMS.BLL.GeneratedMSBuildEditorConfig.editorconfig
+E:\cccc\New folder\CSMS\CSMS.BLL\obj\Debug\net10.0\CSMS.BLL.AssemblyInfoInputs.cache
+E:\cccc\New folder\CSMS\CSMS.BLL\obj\Debug\net10.0\CSMS.BLL.AssemblyInfo.cs
+E:\cccc\New folder\CSMS\CSMS.BLL\obj\Debug\net10.0\CSMS.BLL.csproj.CoreCompileInputs.cache
+E:\cccc\New folder\CSMS\CSMS.BLL\obj\Debug\net10.0\CSMS.BLL.sourcelink.json
+E:\cccc\New folder\CSMS\CSMS.BLL\obj\Debug\net10.0\CSMS.BLL.csproj.Up2Date
+E:\cccc\New folder\CSMS\CSMS.BLL\obj\Debug\net10.0\CSMS.BLL.dll
+E:\cccc\New folder\CSMS\CSMS.BLL\obj\Debug\net10.0\refint\CSMS.BLL.dll
+E:\cccc\New folder\CSMS\CSMS.BLL\obj\Debug\net10.0\CSMS.BLL.pdb
+E:\cccc\New folder\CSMS\CSMS.BLL\obj\Debug\net10.0\ref\CSMS.BLL.dll

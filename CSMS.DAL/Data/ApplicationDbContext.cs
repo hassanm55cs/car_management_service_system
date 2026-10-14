@@ -54,10 +54,10 @@ public partial class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<IdentityRole>().HasData(
-            new IdentityRole { Id = "11111111-1111-1111-1111-111111111111", Name = "admin", NormalizedName = "ADMIN" },
-            new IdentityRole { Id = "22222222-2222-2222-2222-222222222222", Name = "customer", NormalizedName = "CUSTOMER" },
-            new IdentityRole { Id = "33333333-3333-3333-3333-333333333333", Name = "employee", NormalizedName = "EMPLOYEE" },
-            new IdentityRole { Id = "44444444-4444-4444-4444-444444444444", Name = "driver", NormalizedName = "DRIVER" });
+            new IdentityRole { Id = "11111111-1111-1111-1111-111111111111", ConcurrencyStamp = "2a5cb752-f2cb-4f63-b45a-0211c64fdbef", Name = "admin", NormalizedName = "ADMIN" },
+            new IdentityRole { Id = "22222222-2222-2222-2222-222222222222", ConcurrencyStamp = "48beb18c-72c5-4eef-be03-95f98ee3433f", Name = "customer", NormalizedName = "CUSTOMER" },
+            new IdentityRole { Id = "33333333-3333-3333-3333-333333333333", ConcurrencyStamp = "86a28f84-0818-481a-b14e-e7be11dcc8e4", Name = "employee", NormalizedName = "EMPLOYEE" },
+            new IdentityRole { Id = "44444444-4444-4444-4444-444444444444", ConcurrencyStamp = "3513a95c-759f-46fa-8f0b-1727fac32482", Name = "driver", NormalizedName = "DRIVER" });
 
         modelBuilder.Entity<Car>(entity =>
         {
