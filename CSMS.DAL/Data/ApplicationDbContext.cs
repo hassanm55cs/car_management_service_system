@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CSMS.DAL.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +24,8 @@ public partial class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public virtual DbSet<CarsForRent> CarsForRents { get; set; }
 
     public virtual DbSet<Customer> Customers { get; set; }
+
+    public virtual DbSet<Admin> Admins { get; set; }
 
     public virtual DbSet<Driver> Drivers { get; set; }
 
@@ -49,6 +52,12 @@ public partial class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<IdentityRole>().HasData(
+            new IdentityRole { Id = "11111111-1111-1111-1111-111111111111", Name = "admin", NormalizedName = "ADMIN" },
+            new IdentityRole { Id = "22222222-2222-2222-2222-222222222222", Name = "customer", NormalizedName = "CUSTOMER" },
+            new IdentityRole { Id = "33333333-3333-3333-3333-333333333333", Name = "employee", NormalizedName = "EMPLOYEE" },
+            new IdentityRole { Id = "44444444-4444-4444-4444-444444444444", Name = "driver", NormalizedName = "DRIVER" });
 
         modelBuilder.Entity<Car>(entity =>
         {
@@ -122,6 +131,20 @@ public partial class ApplicationDbContext : IdentityDbContext<ApplicationUser>
                 .HasForeignKey<Customer>(e => e.Id);
 
             entity.Property(e => e.Address).HasMaxLength(50);
+            entity.Property(e => e.FullName)
+                .HasMaxLength(30)
+                .HasColumnName("Full_name");
+        });
+
+        modelBuilder.Entity<Admin>(entity =>
+        {
+            entity.ToTable("Admin");
+
+            entity.HasKey(e => e.Id);
+
+            entity.HasOne(e => e.User).WithOne()
+                .HasForeignKey<Admin>(e => e.Id);
+
             entity.Property(e => e.FullName)
                 .HasMaxLength(30)
                 .HasColumnName("Full_name");
