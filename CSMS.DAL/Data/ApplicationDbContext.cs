@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using CSMS.DAL.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CSMS.DAL.Data;
 
-public partial class ApplicationDbContext : DbContext
+public partial class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
     public ApplicationDbContext()
     {
@@ -22,6 +24,8 @@ public partial class ApplicationDbContext : DbContext
     public virtual DbSet<CarsForRent> CarsForRents { get; set; }
 
     public virtual DbSet<Customer> Customers { get; set; }
+
+    public virtual DbSet<Admin> Admins { get; set; }
 
     public virtual DbSet<Driver> Drivers { get; set; }
 
@@ -47,6 +51,14 @@ public partial class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<IdentityRole>().HasData(
+            new IdentityRole { Id = "11111111-1111-1111-1111-111111111111", ConcurrencyStamp = "2a5cb752-f2cb-4f63-b45a-0211c64fdbef", Name = "admin", NormalizedName = "ADMIN" },
+            new IdentityRole { Id = "22222222-2222-2222-2222-222222222222", ConcurrencyStamp = "48beb18c-72c5-4eef-be03-95f98ee3433f", Name = "customer", NormalizedName = "CUSTOMER" },
+            new IdentityRole { Id = "33333333-3333-3333-3333-333333333333", ConcurrencyStamp = "86a28f84-0818-481a-b14e-e7be11dcc8e4", Name = "employee", NormalizedName = "EMPLOYEE" },
+            new IdentityRole { Id = "44444444-4444-4444-4444-444444444444", ConcurrencyStamp = "3513a95c-759f-46fa-8f0b-1727fac32482", Name = "driver", NormalizedName = "DRIVER" });
+
         modelBuilder.Entity<Car>(entity =>
         {
             entity.HasKey(e => e.LicencesPlate);
@@ -102,33 +114,51 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.ManufactuareDate).HasColumnName("manufactuare_date");
             entity.Property(e => e.Model).HasMaxLength(20);
             entity.Property(e => e.NoOfCylinders).HasColumnName("No_of_cylinders");
+            entity.Property(e => e.FuelType)
+         .HasConversion<string>();
+
+            entity.Property(e => e.EngineType)
+                .HasConversion<string>();
         });
 
         modelBuilder.Entity<Customer>(entity =>
         {
             entity.ToTable("Customer");
 
-            entity.HasIndex(e => e.Email, "IX_Customer_Email").IsUnique();
+            entity.HasKey(e => e.Id);
 
-            entity.HasIndex(e => e.Phone, "IX_Customer_Phone").IsUnique();
+            entity.HasOne(e => e.User).WithOne()
+                .HasForeignKey<Customer>(e => e.Id);
 
             entity.Property(e => e.Address).HasMaxLength(50);
-            entity.Property(e => e.Email).HasMaxLength(80);
             entity.Property(e => e.FullName)
                 .HasMaxLength(30)
                 .HasColumnName("Full_name");
-            entity.Property(e => e.Phone).HasMaxLength(20);
+        });
+
+        modelBuilder.Entity<Admin>(entity =>
+        {
+            entity.ToTable("Admin");
+
+            entity.HasKey(e => e.Id);
+
+            entity.HasOne(e => e.User).WithOne()
+                .HasForeignKey<Admin>(e => e.Id);
+
+            entity.Property(e => e.FullName)
+                .HasMaxLength(30)
+                .HasColumnName("Full_name");
         });
 
         modelBuilder.Entity<Driver>(entity =>
         {
+            entity.HasKey(e => e.Id);
+
+            entity.HasOne(e => e.User).WithOne()
+                .HasForeignKey<Driver>(e => e.Id);
+
             entity.HasIndex(e => e.BranchId, "IX_Drivers_BranchId");
 
-            entity.HasIndex(e => e.Email, "IX_Drivers_Email").IsUnique();
-
-            entity.HasIndex(e => e.PhoneNumber, "IX_Drivers_PhoneNumber").IsUnique();
-
-            entity.Property(e => e.Email).HasMaxLength(80);
             entity.Property(e => e.FullName).HasMaxLength(30);
 
             entity.HasOne(d => d.Branch).WithMany(p => p.Drivers)
@@ -151,6 +181,8 @@ public partial class ApplicationDbContext : DbContext
             entity.HasOne(d => d.Driver).WithMany(p => p.EmergencyRequests)
                 .HasForeignKey(d => d.DriverId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+            entity.Property(e => e.StatusEmergency)
+         .HasConversion<string>();
         });
 
         modelBuilder.Entity<EmergencyTruck>(entity =>
@@ -171,26 +203,24 @@ public partial class ApplicationDbContext : DbContext
             entity.HasOne(d => d.Driver).WithMany(p => p.EmergencyTrucks)
                 .HasForeignKey(d => d.DriverId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+
         });
 
         modelBuilder.Entity<Employee>(entity =>
         {
             entity.ToTable("Employee");
 
+            entity.HasKey(e => e.Id);
+
+            entity.HasOne(e => e.User).WithOne()
+                .HasForeignKey<Employee>(e => e.Id);
+
             entity.HasIndex(e => e.BranchId, "IX_Employee_BranchId");
 
-            entity.HasIndex(e => e.Email, "IX_Employee_Email").IsUnique();
-
-            entity.HasIndex(e => e.PhoneNumber, "IX_Employee_Phone_number").IsUnique();
-
-            entity.Property(e => e.Email).HasMaxLength(80);
             entity.Property(e => e.Facultly).HasMaxLength(70);
             entity.Property(e => e.FullName)
                 .HasMaxLength(30)
                 .HasColumnName("Full_name");
-            entity.Property(e => e.PhoneNumber)
-                .HasMaxLength(20)
-                .HasColumnName("Phone_number");
             entity.Property(e => e.Salary)
                 .HasColumnType("decimal(18, 2)")
                 .HasColumnName("salary");

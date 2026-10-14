@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSMS.DAL.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace CSMS.DAL.Models;
@@ -11,9 +12,9 @@ public partial class CarsForRent
 
     public int NoOfCylinders { get; set; }
 
-    public string FuelType { get; set; } = null!;
+    public FuelType FuelType { get; set; } 
 
-    public string EngineType { get; set; } = null!;
+    public EngineType EngineType { get; set; } 
 
     public DateOnly ManufactuareDate { get; set; }
 

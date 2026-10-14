@@ -10,7 +10,7 @@ public partial class Visit
 
     public string CarId { get; set; } = null!;
 
-    public int EmployeeId { get; set; }
+    public string EmployeeId { get; set; } = null!;
 
     public int BranchId { get; set; }
 
@@ -22,6 +22,6 @@ public partial class Visit
     public virtual Car Car { get; set; } = null!;
 
     public virtual Employee Employee { get; set; } = null!;
-    public int hey{ get; set; }
+
     public List<Service> Services { get; set; }
 }

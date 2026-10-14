@@ -22,6 +22,87 @@ namespace CSMS.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("CSMS.DAL.Models.Admin", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)")
+                        .HasColumnName("Full_name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Admin", (string)null);
+                });
+
+            modelBuilder.Entity("CSMS.DAL.Models.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
             modelBuilder.Entity("CSMS.DAL.Models.BranchProduct", b =>
                 {
                     b.Property<int>("BranchId")
@@ -40,7 +121,7 @@ namespace CSMS.DAL.Migrations
 
                     b.HasIndex(new[] { "ProductId" }, "IX_BranchProduct_ProductId");
 
-                    b.ToTable("BranchProducts", (string)null);
+                    b.ToTable("BranchProducts");
                 });
 
             modelBuilder.Entity("CSMS.DAL.Models.Car", b =>
@@ -65,8 +146,9 @@ namespace CSMS.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("CurrentKM");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int")
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("Customer_Id");
 
                     b.Property<string>("EngineType")
@@ -148,26 +230,18 @@ namespace CSMS.DAL.Migrations
 
                     b.HasKey("LicencePlate");
 
-                    b.ToTable("CarsForRents", (string)null);
+                    b.ToTable("CarsForRents");
                 });
 
             modelBuilder.Entity("CSMS.DAL.Models.Customer", b =>
                 {
-                    b.Property<int>("CustomerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -175,37 +249,18 @@ namespace CSMS.DAL.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasColumnName("Full_name");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("CustomerId");
-
-                    b.HasIndex(new[] { "Email" }, "IX_Customer_Email")
-                        .IsUnique();
-
-                    b.HasIndex(new[] { "Phone" }, "IX_Customer_Phone")
-                        .IsUnique();
+                    b.HasKey("Id");
 
                     b.ToTable("Customer", (string)null);
                 });
 
             modelBuilder.Entity("CSMS.DAL.Models.Driver", b =>
                 {
-                    b.Property<int>("DriverId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DriverId"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("BranchId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -223,26 +278,17 @@ namespace CSMS.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PhoneNumber")
-                        .HasColumnType("int");
-
                     b.Property<double>("Salary")
                         .HasColumnType("float");
 
                     b.Property<DateOnly>("StartWorkDate")
                         .HasColumnType("date");
 
-                    b.HasKey("DriverId");
+                    b.HasKey("Id");
 
                     b.HasIndex(new[] { "BranchId" }, "IX_Drivers_BranchId");
 
-                    b.HasIndex(new[] { "Email" }, "IX_Drivers_Email")
-                        .IsUnique();
-
-                    b.HasIndex(new[] { "PhoneNumber" }, "IX_Drivers_PhoneNumber")
-                        .IsUnique();
-
-                    b.ToTable("Drivers", (string)null);
+                    b.ToTable("Drivers");
                 });
 
             modelBuilder.Entity("CSMS.DAL.Models.EmergencyRequest", b =>
@@ -259,8 +305,9 @@ namespace CSMS.DAL.Migrations
                         .HasColumnType("nvarchar(6)")
                         .HasColumnName("Car_LicencePlate");
 
-                    b.Property<int>("DriverId")
-                        .HasColumnType("int");
+                    b.Property<string>("DriverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("EmergenctTime")
                         .HasColumnType("datetime2");
@@ -273,13 +320,17 @@ namespace CSMS.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("StatusEmergency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("EmergencyRequestId");
 
                     b.HasIndex(new[] { "CarLicencePlate" }, "IX_EmergencyRequests_Car_LicencePlate");
 
                     b.HasIndex(new[] { "DriverId" }, "IX_EmergencyRequests_DriverId");
 
-                    b.ToTable("EmergencyRequests", (string)null);
+                    b.ToTable("EmergencyRequests");
                 });
 
             modelBuilder.Entity("CSMS.DAL.Models.EmergencyTruck", b =>
@@ -291,8 +342,9 @@ namespace CSMS.DAL.Migrations
                     b.Property<int>("BranchId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DriverId")
-                        .HasColumnType("int");
+                    b.Property<string>("DriverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
@@ -318,24 +370,16 @@ namespace CSMS.DAL.Migrations
 
                     b.HasIndex(new[] { "DriverId" }, "IX_EmergencyTrucks_DriverId");
 
-                    b.ToTable("EmergencyTrucks", (string)null);
+                    b.ToTable("EmergencyTrucks");
                 });
 
             modelBuilder.Entity("CSMS.DAL.Models.Employee", b =>
                 {
-                    b.Property<int>("EmployeeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeId"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("BranchId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
 
                     b.Property<string>("Facultly")
                         .IsRequired()
@@ -347,12 +391,6 @@ namespace CSMS.DAL.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)")
                         .HasColumnName("Full_name");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("Phone_number");
 
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18, 2)")
@@ -366,15 +404,9 @@ namespace CSMS.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Years_of_experince");
 
-                    b.HasKey("EmployeeId");
+                    b.HasKey("Id");
 
                     b.HasIndex(new[] { "BranchId" }, "IX_Employee_BranchId");
-
-                    b.HasIndex(new[] { "Email" }, "IX_Employee_Email")
-                        .IsUnique();
-
-                    b.HasIndex(new[] { "PhoneNumber" }, "IX_Employee_Phone_number")
-                        .IsUnique();
 
                     b.ToTable("Employee", (string)null);
                 });
@@ -404,7 +436,7 @@ namespace CSMS.DAL.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("CSMS.DAL.Models.RentedCarCustomer", b =>
@@ -415,8 +447,9 @@ namespace CSMS.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RentedCarCustomerId"));
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LicencsePlateRented")
                         .IsRequired()
@@ -442,7 +475,7 @@ namespace CSMS.DAL.Migrations
 
                     b.HasIndex(new[] { "LicencsePlateRented" }, "IX_RentedCarCustomers_LicencsePlateRented");
 
-                    b.ToTable("RentedCarCustomers", (string)null);
+                    b.ToTable("RentedCarCustomers");
                 });
 
             modelBuilder.Entity("CSMS.DAL.Models.Service", b =>
@@ -468,7 +501,7 @@ namespace CSMS.DAL.Migrations
 
                     b.HasIndex("VisitId");
 
-                    b.ToTable("Services", (string)null);
+                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("CSMS.DAL.Models.ServiceBranch", b =>
@@ -493,8 +526,8 @@ namespace CSMS.DAL.Migrations
                         .HasColumnType("time")
                         .HasColumnName("Close_time");
 
-                    b.Property<int?>("ManagerId")
-                        .HasColumnType("int");
+                    b.Property<string>("ManagerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<TimeOnly>("OpenTime")
                         .HasColumnType("time")
@@ -548,7 +581,7 @@ namespace CSMS.DAL.Migrations
 
                     b.HasIndex("serviceByKmId");
 
-                    b.ToTable("ServiceByKmProducts", (string)null);
+                    b.ToTable("ServiceByKmProducts");
                 });
 
             modelBuilder.Entity("CSMS.DAL.Models.Visit", b =>
@@ -568,8 +601,9 @@ namespace CSMS.DAL.Migrations
                         .HasMaxLength(6)
                         .HasColumnType("nvarchar(6)");
 
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
+                    b.Property<string>("EmployeeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateOnly>("ServiceDate")
                         .HasColumnType("date")
@@ -588,6 +622,180 @@ namespace CSMS.DAL.Migrations
                     b.HasIndex(new[] { "EmployeeId" }, "IX_service_EmployeeId");
 
                     b.ToTable("Visit", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "11111111-1111-1111-1111-111111111111",
+                            ConcurrencyStamp = "2a5cb752-f2cb-4f63-b45a-0211c64fdbef",
+                            Name = "admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "22222222-2222-2222-2222-222222222222",
+                            ConcurrencyStamp = "48beb18c-72c5-4eef-be03-95f98ee3433f",
+                            Name = "customer",
+                            NormalizedName = "CUSTOMER"
+                        },
+                        new
+                        {
+                            Id = "33333333-3333-3333-3333-333333333333",
+                            ConcurrencyStamp = "86a28f84-0818-481a-b14e-e7be11dcc8e4",
+                            Name = "employee",
+                            NormalizedName = "EMPLOYEE"
+                        },
+                        new
+                        {
+                            Id = "44444444-4444-4444-4444-444444444444",
+                            ConcurrencyStamp = "3513a95c-759f-46fa-8f0b-1727fac32482",
+                            Name = "driver",
+                            NormalizedName = "DRIVER"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("CSMS.DAL.Models.Admin", b =>
+                {
+                    b.HasOne("CSMS.DAL.Models.ApplicationUser", "User")
+                        .WithOne()
+                        .HasForeignKey("CSMS.DAL.Models.Admin", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CSMS.DAL.Models.BranchProduct", b =>
@@ -619,6 +827,17 @@ namespace CSMS.DAL.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("CSMS.DAL.Models.Customer", b =>
+                {
+                    b.HasOne("CSMS.DAL.Models.ApplicationUser", "User")
+                        .WithOne()
+                        .HasForeignKey("CSMS.DAL.Models.Customer", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("CSMS.DAL.Models.Driver", b =>
                 {
                     b.HasOne("CSMS.DAL.Models.ServiceBranch", "Branch")
@@ -626,7 +845,15 @@ namespace CSMS.DAL.Migrations
                         .HasForeignKey("BranchId")
                         .IsRequired();
 
+                    b.HasOne("CSMS.DAL.Models.ApplicationUser", "User")
+                        .WithOne()
+                        .HasForeignKey("CSMS.DAL.Models.Driver", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Branch");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CSMS.DAL.Models.EmergencyRequest", b =>
@@ -671,7 +898,15 @@ namespace CSMS.DAL.Migrations
                         .HasForeignKey("BranchId")
                         .IsRequired();
 
+                    b.HasOne("CSMS.DAL.Models.ApplicationUser", "User")
+                        .WithOne()
+                        .HasForeignKey("CSMS.DAL.Models.Employee", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Branch");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CSMS.DAL.Models.RentedCarCustomer", b =>
@@ -760,6 +995,57 @@ namespace CSMS.DAL.Migrations
                     b.Navigation("Car");
 
                     b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("CSMS.DAL.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("CSMS.DAL.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CSMS.DAL.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("CSMS.DAL.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CSMS.DAL.Models.Car", b =>

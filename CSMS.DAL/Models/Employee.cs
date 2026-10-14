@@ -5,13 +5,9 @@ namespace CSMS.DAL.Models;
 
 public partial class Employee
 {
-    public int EmployeeId { get; set; }
+    public string Id { get; set; } = null!;
 
     public string FullName { get; set; } = null!;
-
-    public string Email { get; set; } = null!;
-
-    public string PhoneNumber { get; set; } = null!;
 
     public string Facultly { get; set; } = null!;
 
@@ -22,6 +18,8 @@ public partial class Employee
     public decimal Salary { get; set; }
 
     public int BranchId { get; set; }
+
+    public virtual ApplicationUser User { get; set; } = null!;
 
     public virtual ServiceBranch Branch { get; set; } = null!;
 
