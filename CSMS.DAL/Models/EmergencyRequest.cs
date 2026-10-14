@@ -12,7 +12,7 @@ public partial class EmergencyRequest
 
     public string CarLicencePlate { get; set; } = null!;
 
-    public int DriverId { get; set; }
+    public string DriverId { get; set; } = null!;
 
     public string Latitude { get; set; } = null!;
 

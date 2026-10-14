@@ -15,7 +15,7 @@ public partial class RentedCarCustomer
 
     public DateOnly RentEndDate { get; set; }
 
-    public int CustomerId { get; set; }
+    public string CustomerId { get; set; } = null!;
 
     public string LicencsePlateRented { get; set; } = null!;
 

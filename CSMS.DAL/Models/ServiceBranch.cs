@@ -17,7 +17,7 @@ public partial class ServiceBranch
 
     public DateOnly OpeningDate { get; set; }
 
-    public int? ManagerId { get; set; }
+    public string? ManagerId { get; set; }
 
     public virtual ICollection<Driver> Drivers { get; set; } = new List<Driver>();
 

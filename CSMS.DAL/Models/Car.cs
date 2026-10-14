@@ -22,7 +22,7 @@ public partial class Car
 
     public string Model { get; set; } = null!;
 
-    public int CustomerId { get; set; }
+    public string CustomerId { get; set; } = null!;
 
     public double PriceInEgp { get; set; }
 

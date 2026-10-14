@@ -1,7 +1,9 @@
 using CSMS.BLL.Interfaces;
 using CSMS.BLL.Services;
 using CSMS.DAL.Data;
+using CSMS.DAL.Models;
 using CSMS.DAL.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CSMS.PLL
@@ -15,6 +17,8 @@ namespace CSMS.PLL
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("CoString")));
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             builder.Services.AddScoped<IProductService, ProductService>();
 
@@ -29,6 +33,7 @@ namespace CSMS.PLL
             app.UseHttpsRedirection();
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapStaticAssets();

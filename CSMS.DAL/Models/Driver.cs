@@ -5,13 +5,9 @@ namespace CSMS.DAL.Models;
 
 public partial class Driver
 {
-    public int DriverId { get; set; }
+    public string Id { get; set; } = null!;
 
     public string FullName { get; set; } = null!;
-
-    public int PhoneNumber { get; set; }
-
-    public string Email { get; set; } = null!;
 
     public DateOnly StartWorkDate { get; set; }
 
@@ -24,6 +20,8 @@ public partial class Driver
     public string Longitude { get; set; } = null!;
 
     public int BranchId { get; set; }
+
+    public virtual ApplicationUser User { get; set; } = null!;
 
     public virtual ServiceBranch Branch { get; set; } = null!;
 

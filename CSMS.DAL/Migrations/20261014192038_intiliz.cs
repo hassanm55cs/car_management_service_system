@@ -6,11 +6,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CSMS.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class changed_servicetovisit_addproduct_branchProduct : Migration
+    public partial class intiliz : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "CarsForRents",
                 columns: table => new
@@ -27,22 +41,6 @@ namespace CSMS.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CarsForRents", x => x.LicencePlate);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Customer",
-                columns: table => new
-                {
-                    CustomerId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
-                    Full_name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customer", x => x.CustomerId);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,6 +75,167 @@ namespace CSMS.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetRoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ServiceByKmProducts",
+                columns: table => new
+                {
+                    serviceByKmId = table.Column<int>(type: "int", nullable: false),
+                    productId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServiceByKmProducts", x => new { x.productId, x.serviceByKmId });
+                    table.ForeignKey(
+                        name: "FK_ServiceByKmProducts_Products_productId",
+                        column: x => x.productId,
+                        principalTable: "Products",
+                        principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ServiceByKmProducts_ServiceByKm_serviceByKmId",
+                        column: x => x.serviceByKmId,
+                        principalTable: "ServiceByKm",
+                        principalColumn: "ServiceByKmId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    driverId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    employeeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    customerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Customer",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    Full_name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customer", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Customer_AspNetUsers_Id",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Car",
                 columns: table => new
                 {
@@ -88,7 +247,7 @@ namespace CSMS.DAL.Migrations
                     manufactuare_date = table.Column<DateOnly>(type: "date", nullable: false),
                     Car_Company = table.Column<string>(type: "nvarchar(35)", maxLength: 35, nullable: false),
                     Model = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Customer_Id = table.Column<int>(type: "int", nullable: false),
+                    Customer_Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PriceInEgp = table.Column<double>(type: "float", nullable: false),
                     CurrentKM = table.Column<int>(type: "int", nullable: false)
                 },
@@ -99,7 +258,7 @@ namespace CSMS.DAL.Migrations
                         name: "FK_Car_Customer_Customer_Id",
                         column: x => x.Customer_Id,
                         principalTable: "Customer",
-                        principalColumn: "CustomerId");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -112,7 +271,7 @@ namespace CSMS.DAL.Migrations
                     No_ofDays_ForRent = table.Column<int>(type: "int", nullable: false),
                     RentStartDate = table.Column<DateOnly>(type: "date", nullable: false),
                     RentEndDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     LicencsePlateRented = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false)
                 },
                 constraints: table =>
@@ -127,7 +286,7 @@ namespace CSMS.DAL.Migrations
                         name: "FK_RentedCarCustomers_Customer_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customer",
-                        principalColumn: "CustomerId");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -153,8 +312,7 @@ namespace CSMS.DAL.Migrations
                 name: "Drivers",
                 columns: table => new
                 {
-                    DriverId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     PhoneNumber = table.Column<int>(type: "int", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
@@ -167,7 +325,13 @@ namespace CSMS.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Drivers", x => x.DriverId);
+                    table.PrimaryKey("PK_Drivers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Drivers_AspNetUsers_Id",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -178,9 +342,10 @@ namespace CSMS.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EmergenctTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Car_LicencePlate = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
-                    DriverId = table.Column<int>(type: "int", nullable: false),
+                    DriverId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Latitude = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Longitude = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Longitude = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StatusEmergency = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -195,7 +360,7 @@ namespace CSMS.DAL.Migrations
                         name: "FK_EmergencyRequests_Drivers_DriverId",
                         column: x => x.DriverId,
                         principalTable: "Drivers",
-                        principalColumn: "DriverId");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -209,7 +374,7 @@ namespace CSMS.DAL.Migrations
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Manufactuare_Date = table.Column<DateOnly>(type: "date", nullable: false),
                     BranchId = table.Column<int>(type: "int", nullable: false),
-                    DriverId = table.Column<int>(type: "int", nullable: false)
+                    DriverId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -218,15 +383,14 @@ namespace CSMS.DAL.Migrations
                         name: "FK_EmergencyTrucks_Drivers_DriverId",
                         column: x => x.DriverId,
                         principalTable: "Drivers",
-                        principalColumn: "DriverId");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Employee",
                 columns: table => new
                 {
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Full_name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
                     Phone_number = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
@@ -238,7 +402,13 @@ namespace CSMS.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employee", x => x.EmployeeId);
+                    table.PrimaryKey("PK_Employee", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Employee_AspNetUsers_Id",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -252,7 +422,7 @@ namespace CSMS.DAL.Migrations
                     Open_time = table.Column<TimeOnly>(type: "time", nullable: false),
                     Close_time = table.Column<TimeOnly>(type: "time", nullable: false),
                     Opening_date = table.Column<DateOnly>(type: "date", nullable: false),
-                    ManagerId = table.Column<int>(type: "int", nullable: true)
+                    ManagerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -261,7 +431,7 @@ namespace CSMS.DAL.Migrations
                         name: "FK_service_branches_Employee_ManagerId",
                         column: x => x.ManagerId,
                         principalTable: "Employee",
-                        principalColumn: "EmployeeId");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -271,9 +441,10 @@ namespace CSMS.DAL.Migrations
                     VisitId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CarId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     BranchId = table.Column<int>(type: "int", nullable: false),
-                    Service_Date = table.Column<DateOnly>(type: "date", nullable: false)
+                    Service_Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -287,7 +458,7 @@ namespace CSMS.DAL.Migrations
                         name: "FK_Visit_Employee_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employee",
-                        principalColumn: "EmployeeId");
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Visit_service_branches_BranchId",
                         column: x => x.BranchId,
@@ -321,6 +492,60 @@ namespace CSMS.DAL.Migrations
                         principalColumn: "VisitId",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoleClaims_RoleId",
+                table: "AspNetRoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserClaims_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserLogins_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_RoleId",
+                table: "AspNetUserRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_customerId",
+                table: "AspNetUsers",
+                column: "customerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_driverId",
+                table: "AspNetUsers",
+                column: "driverId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_employeeId",
+                table: "AspNetUsers",
+                column: "employeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BranchProduct_BranchId",
@@ -421,6 +646,11 @@ namespace CSMS.DAL.Migrations
                 filter: "([ManagerId] IS NOT NULL)");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ServiceByKmProducts_serviceByKmId",
+                table: "ServiceByKmProducts",
+                column: "serviceByKmId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Services_ProductId",
                 table: "Services",
                 column: "ProductId");
@@ -444,6 +674,51 @@ namespace CSMS.DAL.Migrations
                 name: "IX_service_EmployeeId",
                 table: "Visit",
                 column: "EmployeeId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                table: "AspNetUserRoles",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUsers_Customer_customerId",
+                table: "AspNetUsers",
+                column: "customerId",
+                principalTable: "Customer",
+                principalColumn: "Id");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUsers_Drivers_driverId",
+                table: "AspNetUsers",
+                column: "driverId",
+                principalTable: "Drivers",
+                principalColumn: "Id");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUsers_Employee_employeeId",
+                table: "AspNetUsers",
+                column: "employeeId",
+                principalTable: "Employee",
+                principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_BranchProducts_service_branches_BranchId",
@@ -479,8 +754,35 @@ namespace CSMS.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Employee_service_branches_BranchId",
+                name: "FK_Customer_AspNetUsers_Id",
+                table: "Customer");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Drivers_AspNetUsers_Id",
+                table: "Drivers");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Employee_AspNetUsers_Id",
                 table: "Employee");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_service_branches_Employee_ManagerId",
+                table: "service_branches");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
                 name: "BranchProducts");
@@ -495,16 +797,19 @@ namespace CSMS.DAL.Migrations
                 name: "RentedCarCustomers");
 
             migrationBuilder.DropTable(
-                name: "ServiceByKm");
+                name: "ServiceByKmProducts");
 
             migrationBuilder.DropTable(
                 name: "Services");
 
             migrationBuilder.DropTable(
-                name: "Drivers");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "CarsForRents");
+
+            migrationBuilder.DropTable(
+                name: "ServiceByKm");
 
             migrationBuilder.DropTable(
                 name: "Products");
@@ -516,13 +821,19 @@ namespace CSMS.DAL.Migrations
                 name: "Car");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "Customer");
 
             migrationBuilder.DropTable(
-                name: "service_branches");
+                name: "Drivers");
 
             migrationBuilder.DropTable(
                 name: "Employee");
+
+            migrationBuilder.DropTable(
+                name: "service_branches");
         }
     }
 }

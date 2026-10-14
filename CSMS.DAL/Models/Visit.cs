@@ -10,7 +10,7 @@ public partial class Visit
 
     public string CarId { get; set; } = null!;
 
-    public int EmployeeId { get; set; }
+    public string EmployeeId { get; set; } = null!;
 
     public int BranchId { get; set; }
 

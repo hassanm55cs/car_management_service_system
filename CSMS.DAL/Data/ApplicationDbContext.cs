@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using CSMS.DAL.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CSMS.DAL.Data;
 
-public partial class ApplicationDbContext : DbContext
+public partial class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
     public ApplicationDbContext()
     {
@@ -47,6 +48,8 @@ public partial class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<Car>(entity =>
         {
             entity.HasKey(e => e.LicencesPlate);
@@ -113,27 +116,26 @@ public partial class ApplicationDbContext : DbContext
         {
             entity.ToTable("Customer");
 
-            entity.HasIndex(e => e.Email, "IX_Customer_Email").IsUnique();
+            entity.HasKey(e => e.Id);
 
-            entity.HasIndex(e => e.Phone, "IX_Customer_Phone").IsUnique();
+            entity.HasOne(e => e.User).WithOne()
+                .HasForeignKey<Customer>(e => e.Id);
 
             entity.Property(e => e.Address).HasMaxLength(50);
-            entity.Property(e => e.Email).HasMaxLength(80);
             entity.Property(e => e.FullName)
                 .HasMaxLength(30)
                 .HasColumnName("Full_name");
-            entity.Property(e => e.Phone).HasMaxLength(20);
         });
 
         modelBuilder.Entity<Driver>(entity =>
         {
+            entity.HasKey(e => e.Id);
+
+            entity.HasOne(e => e.User).WithOne()
+                .HasForeignKey<Driver>(e => e.Id);
+
             entity.HasIndex(e => e.BranchId, "IX_Drivers_BranchId");
 
-            entity.HasIndex(e => e.Email, "IX_Drivers_Email").IsUnique();
-
-            entity.HasIndex(e => e.PhoneNumber, "IX_Drivers_PhoneNumber").IsUnique();
-
-            entity.Property(e => e.Email).HasMaxLength(80);
             entity.Property(e => e.FullName).HasMaxLength(30);
 
             entity.HasOne(d => d.Branch).WithMany(p => p.Drivers)
@@ -185,20 +187,17 @@ public partial class ApplicationDbContext : DbContext
         {
             entity.ToTable("Employee");
 
+            entity.HasKey(e => e.Id);
+
+            entity.HasOne(e => e.User).WithOne()
+                .HasForeignKey<Employee>(e => e.Id);
+
             entity.HasIndex(e => e.BranchId, "IX_Employee_BranchId");
 
-            entity.HasIndex(e => e.Email, "IX_Employee_Email").IsUnique();
-
-            entity.HasIndex(e => e.PhoneNumber, "IX_Employee_Phone_number").IsUnique();
-
-            entity.Property(e => e.Email).HasMaxLength(80);
             entity.Property(e => e.Facultly).HasMaxLength(70);
             entity.Property(e => e.FullName)
                 .HasMaxLength(30)
                 .HasColumnName("Full_name");
-            entity.Property(e => e.PhoneNumber)
-                .HasMaxLength(20)
-                .HasColumnName("Phone_number");
             entity.Property(e => e.Salary)
                 .HasColumnType("decimal(18, 2)")
                 .HasColumnName("salary");
